@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Polish-English Vocabulary Assistant</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+          crossorigin="anonymous">
+    <style>
+        pre {
+            white-space: pre-wrap; /* перенос строк внутри блока */
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body class="p-4">
+
+<!-- Powitanie -->
+<p th:text="|Cześć, ${name}!|" class="fs-4 mb-4"></p>
+
+<!-- Formularz zapytania -->
+<form th:action="@{/query}" method="post" class="d-flex gap-2 mb-3">
+    <input type="text" name="prompt" class="form-control" placeholder="Wpisz zapytanie do Ollama" required>
+    <button type="submit" class="btn btn-primary">Wyślij</button>
+</form>
+
+<!-- Wynik odpowiedzi -->
+<div th:if="${response != null}" class="alert alert-success">
+    <pre th:text="${response}"></pre>
+</div>
+<!--<div th:each="el: ${words}">-->
+<!--    <h2 th:text="${el.english}"></h2>-->
+<!--</div>-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-..." crossorigin="anonymous"></script>
+</body>
+</html>
