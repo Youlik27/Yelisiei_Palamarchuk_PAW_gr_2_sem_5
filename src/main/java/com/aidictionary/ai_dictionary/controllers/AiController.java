@@ -1,6 +1,6 @@
 package com.aidictionary.ai_dictionary.controllers;
 
-import com.aidictionary.ai_dictionary.models.Words;
+import com.aidictionary.ai_dictionary.models.WordDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -12,17 +12,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
-import com.aidictionary.ai_dictionary.repositories.WordsRepository;
+import com.aidictionary.ai_dictionary.repositories.WordDefinitionRepository;
 
 @Controller
 public class AiController {
     @Autowired
-    private WordsRepository vocabularyRepository;
+    private WordDefinitionRepository vocabularyRepository;
 
 
     public String greeting(Model model) {
         model.addAttribute("name", "Użytkowniku");
-        Iterable<Words> vocabulary = vocabularyRepository.findAll();
+        Iterable<WordDefinition> vocabulary = vocabularyRepository.findAll();
         model.addAttribute("vocabulary", vocabulary);
         return "ai";
     }
@@ -53,7 +53,7 @@ public class AiController {
 
 
 
-        GenerateRequest requestBody = new GenerateRequest("gpt-oss:20b", formattedPrompt, false);
+        GenerateRequest requestBody = new GenerateRequest("deepseek-v3.1:671b-cloud", formattedPrompt, false);
         HttpEntity<GenerateRequest> entity = new HttpEntity<>(requestBody, headers);
 
         try {
@@ -70,7 +70,6 @@ public class AiController {
         return "ai";
     }
 
-    // Simple DTOs for Ollama Generate API
     static class GenerateRequest {
         public String model;
         public String prompt;

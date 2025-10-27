@@ -22,9 +22,9 @@
     data.forEach(word => {
     const li = document.createElement('li');
     li.classList.add('list-group-item');
-    li.textContent = `${word.word_pl} — ${word.word_en}`;
+    li.textContent = `${word.wordPl} — ${word.wordEn}`;
     li.addEventListener('click', () => {
-    alert("Вы выбрали: " + word.word_pl + " / " + word.word_en);
+    alert("Вы выбрали: " + word.wordPl + " / " + word.wordEn);
 });
     resultsList.appendChild(li);
 });
