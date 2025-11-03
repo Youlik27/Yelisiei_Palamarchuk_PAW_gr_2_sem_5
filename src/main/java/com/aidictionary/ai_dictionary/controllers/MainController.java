@@ -1,7 +1,6 @@
 package com.aidictionary.ai_dictionary.controllers;
 
-import com.aidictionary.ai_dictionary.models.EnglishWords;
-import com.aidictionary.ai_dictionary.models.WordDefinition;
+import com.aidictionary.ai_dictionary.models.EnglishWord;
 import com.aidictionary.ai_dictionary.models.WordDefinition;
 import com.aidictionary.ai_dictionary.repositories.English_WordsRepository;
 import com.aidictionary.ai_dictionary.repositories.WordDefinitionRepository;
@@ -27,23 +26,21 @@ public class MainController {
 
     @GetMapping("/")
     public String home(Model model) {
-        Iterable<WordDefinition> words = wordsRepository.findAll();
-        model.addAttribute("words", words);
         return "home";
     }
     @GetMapping("/search")
     @ResponseBody
-    public Iterable<EnglishWords> searchWords(@RequestParam("q") String query) {
+    public Iterable<EnglishWord> searchWords(@RequestParam("q") String query) {
         if (query.trim().length() < 1) {
             return java.util.Collections.emptyList();
         }
-        List<EnglishWords> exactMatches = english_WordsRepository.findByWordIgnoreCase(query);
+        List<EnglishWord> exactMatches = english_WordsRepository.findByWordIgnoreCase(query);
 
-        List<EnglishWords> partialMatches = (List<EnglishWords>) english_WordsRepository.findByWordContainingIgnoreCase(query);
+        List<EnglishWord> partialMatches = (List<EnglishWord>) english_WordsRepository.findByWordContainingIgnoreCase(query);
 
         partialMatches.removeAll(exactMatches);
 
-        List<EnglishWords> allResults = new ArrayList<>();
+        List<EnglishWord> allResults = new ArrayList<>();
         allResults.addAll(exactMatches);
         allResults.addAll(partialMatches);
         if (allResults.size() > 6) {
@@ -52,13 +49,12 @@ public class MainController {
 
         return allResults;
     }
-    @GetMapping("/{wordName}-{id}")
+    @GetMapping("/{wordName}")
     public String viewWordDetails(
             @PathVariable String wordName,
-            @PathVariable Long id,
             Model model
     ){
-        List<WordDefinition> words = (List<WordDefinition>) wordsRepository.findByEnglishWord_WordIgnoreCase(wordName);
+        List<WordDefinition> words = (List<WordDefinition>) wordsRepository.findByEnglishWord_WordIgnoreCaseAndPolishWord_FrequencyGreaterThanOrderByPolishWord_FrequencyDesc(wordName, 0);
 
         if (words.isEmpty()) {
             return "error/404";

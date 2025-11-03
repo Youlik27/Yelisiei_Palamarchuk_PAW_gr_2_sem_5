@@ -12,12 +12,12 @@ public class WordDefinition {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "polish_word_id")
-    private PolishWords polishWord;
+    private PolishWord polishWord;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "english_word_id")
-    private EnglishWords englishWord;
+    private EnglishWord englishWord;
 
     @Column(name = "lang_code")
     private String langCode;
@@ -52,19 +52,19 @@ public class WordDefinition {
         this.id = id;
     }
 
-    public PolishWords getPolishWord() {
+    public PolishWord getPolishWord() {
         return polishWord;
     }
 
-    public void setPolishWord(PolishWords polishWord) {
+    public void setPolishWord(PolishWord polishWord) {
         this.polishWord = polishWord;
     }
 
-    public EnglishWords getEnglishWord() {
+    public EnglishWord getEnglishWord() {
         return englishWord;
     }
 
-    public void setEnglishWord(EnglishWords englishWord) {
+    public void setEnglishWord(EnglishWord englishWord) {
         this.englishWord = englishWord;
     }
 

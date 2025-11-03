@@ -1,34 +1,43 @@
-    const searchInput = document.getElementById('searchInput');
-    const resultsList = document.getElementById('resultsList');
+document.getElementById('searchInput').addEventListener('input', function() {
+    const query = this.value.trim();
+    const resultsDiv = document.getElementById('resultsList');
 
-    let timeout = null; // чтобы делать небольшую задержку
+    if (query.length < 3) {
+        resultsDiv.innerHTML = '';
+        return;
+    }
 
-    searchInput.addEventListener('input', () => {
-    const query = searchInput.value.trim();
+    fetch(`/search?q=${encodeURIComponent(query)}`)
+        .then(response => response.json())
+        .then(data => {
+            resultsDiv.innerHTML = '';
 
-    // Запускаем поиск только если введено >= 3 символов
-    if(query.length < 3){
-    resultsList.innerHTML = ""; // очищаем результаты
-    return;
-}
+            if (data.length === 0) {
+                const noResult = document.createElement('li');
+                noResult.classList.add('list-group-item');
+                noResult.textContent = 'Brak wyników.';
+                resultsDiv.appendChild(noResult);
+                return;
+            }
 
-    // Небольшая задержка, чтобы не спамить сервер
-    clearTimeout(timeout);
-    timeout = setTimeout(() => {
-    fetch(`/dictionary/search?query=${query}`)
-    .then(response => response.json())
-    .then(data => {
-    resultsList.innerHTML = "";
-    data.forEach(word => {
-    const li = document.createElement('li');
-    li.classList.add('list-group-item');
-    li.textContent = `${word.wordPl} — ${word.wordEn}`;
-    li.addEventListener('click', () => {
-    alert("Вы выбрали: " + word.wordPl + " / " + word.wordEn);
+            data.forEach(word => {
+                const item = document.createElement('li');
+                item.classList.add('list-group-item');
+                item.id = word.id;
+
+                const link = document.createElement('a');
+                link.href = `/${word.word}`;
+
+                link.style.textDecoration = 'none';
+                link.style.color = 'inherit';
+                link.style.display = 'block';
+
+                link.innerHTML = `<b> ${word.word} <br/><small>${word.description ?? ''}</small>`;
+
+                item.appendChild(link);
+
+                resultsDiv.appendChild(item);
+            });
+        })
+        .catch(err => console.error('Błąd wyszukiwania:', err));
 });
-    resultsList.appendChild(li);
-});
-});
-}, 300); // задержка 300мс
-});
-

@@ -1,13 +1,20 @@
 package com.aidictionary.ai_dictionary.models;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
-@Table(name = "english_words")
-public class EnglishWords {
+@Table(name = "polish_words")
+public class PolishWord {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @Setter
+    @Getter
     private String word;
+    @Getter
+    @Setter
+    private Integer frequency;
 
     public Long getId() {
         return id;
@@ -15,10 +22,5 @@ public class EnglishWords {
     public void setId(Long id) {
         this.id = id;
     }
-    public String getWord() {
-        return word;
-    }
-    public void setWord(String word) {
-        this.word = word;
-    }
+
 }

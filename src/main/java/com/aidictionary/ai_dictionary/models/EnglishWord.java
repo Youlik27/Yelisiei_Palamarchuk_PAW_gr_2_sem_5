@@ -2,8 +2,8 @@ package com.aidictionary.ai_dictionary.models;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "polish_words")
-public class PolishWords {
+@Table(name = "english_words")
+public class EnglishWord {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
