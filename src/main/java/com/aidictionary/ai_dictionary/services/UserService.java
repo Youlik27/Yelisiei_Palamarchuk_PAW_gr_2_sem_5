@@ -38,7 +38,7 @@ public class UserService {
 
         String hashedPassword = passwordEncoder.encode(password);
 
-        Role role = roleRepository.findByName("user")
+        Role role = roleRepository.findByName("USER")
                 .orElseThrow(() -> new RuntimeException("Błąd krytyczny: Rola 'user' nie została znaleziona w bazie danych"));
 
         User newUser = new User();

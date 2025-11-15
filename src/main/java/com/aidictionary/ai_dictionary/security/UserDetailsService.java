@@ -24,7 +24,7 @@ public class UserDetailsService implements org.springframework.security.core.use
         return new org.springframework.security.core.userdetails.User(
                 myUser.getUsername(),
                 myUser.getPasswordHash(),
-                Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"))
+                Collections.singletonList(new SimpleGrantedAuthority("user"))
         );
     }
 }

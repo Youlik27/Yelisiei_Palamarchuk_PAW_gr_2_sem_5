@@ -59,7 +59,7 @@ public class AiController {
                         .replaceAll("model:.*", "")
                         .trim();
 
-                String linked = clean.replaceAll("(?<!\\w)([A-Za-zÀ-ž]+)(?!\\w)", "<a href='/$1' class='word-link'>$1</a>");
+                String linked = clean.replaceAll("(?<!\\w)([A-Za-zÀ-ž]+)(?!\\w)", "<a href='/word/$1' class='word-link'>$1</a>");
 
                 model.addAttribute("response", linked);
             } else {

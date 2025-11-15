@@ -1,0 +1,11 @@
+com\aidictionary\ai_dictionary\controllers\RegistrationController.class
+com\aidictionary\ai_dictionary\controllers\AiController$GenerateRequest.class
+com\aidictionary\ai_dictionary\controllers\LoginController.class
+com\aidictionary\ai_dictionary\AiDictionaryApplication.class
+com\aidictionary\ai_dictionary\controllers\AiController$GenerateResponse.class
+com\aidictionary\ai_dictionary\models\EnglishWord.class
+com\aidictionary\ai_dictionary\repositories\WordDefinitionRepository.class
+com\aidictionary\ai_dictionary\models\PolishWord.class
+com\aidictionary\ai_dictionary\models\WordDefinition.class
+com\aidictionary\ai_dictionary\controllers\MainController.class
+com\aidictionary\ai_dictionary\controllers\AiController.class

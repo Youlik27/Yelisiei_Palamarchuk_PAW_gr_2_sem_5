@@ -20,14 +20,14 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authorize -> authorize
                         // 1. Указываем, ЧТО нужно защитить
-                        // Например, все URL, начинающиеся с /admin/ или /profile/
+                        // Например, все URL, начинающиеся с /admin/ или /profile.html/
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/profile/**", "/my-account/**").authenticated()
 
                         .anyRequest().permitAll()
                 )
                 // 3. Все равно настраиваем форму входа,
-                // чтобы у пользователей был способ войти для доступа к /admin/ и /profile/
+                // чтобы у пользователей был способ войти для доступа к /admin/ и /profile.html/
                 .formLogin(formLogin -> formLogin
                         .loginPage("/login") // Можно использовать свою или дефолтную
                         .permitAll()

@@ -1,36 +1,54 @@
-<header th:fragment="header" class="p-3 mb-3 border-bottom"
-        xmlns:th="http://www.thymeleaf.org"
-        xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-    <div class="container" bis_skin_checked="1">
-        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start" bis_skin_checked="1"><a href="/" class="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
-            <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
-                <use xlink:href="#bootstrap"></use>
-            </svg>
+<nav th:fragment="header" id="main_nav" class="navbar navbar-expand-lg navbar-light bg-white shadow"
+     xmlns:th="http://www.thymeleaf.org"
+     xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <div class="container d-flex justify-content-between align-items-center">
+        <a class="navbar-brand h1" th:href="@{/}">
+            <i class='bx bx-buildings bx-sm text-dark'></i>
+            <span class="text-dark h4">Purple</span> <span class="text-primary h4">Buzz</span>
         </a>
-            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                <li><a href="/" class="nav-link px-2 link-body-emphasis">Dictionary</a></li>
-                <li><a href="/ai" class="nav-link px-2 link-body-emphasis">AI</a></li>
-            </ul>
-            <div sec:authorize="isAuthenticated()" class="dropdown text-end" bis_skin_checked="1"><a href="/login" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"> <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle"> </a>
-                <ul class="dropdown-menu text-small">
-                    <li><a class="dropdown-item" href="/profile">Profile</a></li>
-                    <li><a class="dropdown-item" href="#">Słowa</a></li>
-                    <li><a class="dropdown-item" href="/login"></a></li>
-                    <li>a
-                        <hr class="dropdown-divider">
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-toggler-success" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="align-self-center collapse navbar-collapse flex-fill d-lg-flex justify-content-lg-between" id="navbar-toggler-success">
+            <div class="flex-fill mx-xl-5 mb-2">
+                <ul class="nav navbar-nav d-flex justify-content-between mx-xl-5 text-center text-dark">
+                    <li class="nav-item">
+                        <a class="nav-link btn-outline-primary rounded-pill px-3" th:href="@{/}">Słownik</a>
                     </li>
-                    <li>
-                        <form th:action="@{/logout}" method="post">
-                            <button type="submit" class="dropdown-item">Wylogować się</button>
-                        </form>
+                    <li class="nav-item">
+                        <a class="nav-link btn-outline-primary rounded-pill px-3" th:href="@{/ai}">AI</a>
                     </li>
                 </ul>
             </div>
-            <div sec:authorize="isAnonymous()">
-                <div class="d-flex gap-2">
-                    <a class="btn btn-sm btn-outline-secondary" href="/login">Zaloguj się</a>
+
+            <div class="navbar align-self-center d-flex">
+                <div sec:authorize="isAuthenticated()" class="dropdown text-end" bis_skin_checked="1">
+                    <a href="/login" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+                    </a>
+                    <ul class="dropdown-menu text-small">
+                        <li><a class="dropdown-item" href="/profile">Profile</a></li>
+                        <li><a class="dropdown-item" href="/vocabluary">Słowa</a></li>
+                        <li><a class="dropdown-item" href="/login"></a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <form th:action="@{/logout}" method="post">
+                                <button type="submit" class="dropdown-item">Wylogować się</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+                <div sec:authorize="isAnonymous()">
+                    <div class="d-flex gap-2">
+                        <a class="btn btn-sm btn-outline-primary" href="/login">Zaloguj się</a>
+                    </div>
                 </div>
             </div>
+
         </div>
     </div>
-</header>
+</nav>

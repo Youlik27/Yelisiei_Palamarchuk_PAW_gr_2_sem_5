@@ -1,43 +1,75 @@
-document.getElementById('searchInput').addEventListener('input', function() {
-    const query = this.value.trim();
+document.addEventListener('DOMContentLoaded', () => {
+
+    const searchInput = document.getElementById('searchInput');
     const resultsDiv = document.getElementById('resultsList');
 
-    if (query.length < 3) {
+    if (!searchInput) return;
+
+    searchInput.addEventListener('input', function() {
+        const query = this.value.trim();
+
+        if (query.length < 3) {
+            hideResults();
+            return;
+        }
+
+        fetch(`/search?q=${encodeURIComponent(query)}`)
+            .then(response => response.json())
+            .then(data => {
+                showResults(data);
+            })
+            .catch(err => {
+                console.error('Błąd wyszukiwania:', err);
+                hideResults();
+            });
+    });
+
+    function showResults(data) {
         resultsDiv.innerHTML = '';
-        return;
+        resultsDiv.classList.add('dropdown-menu', 'show', 'w-100', 'shadow-lg');
+        if (data.length === 0) {
+            resultsDiv.innerHTML = '<span class="dropdown-item-text text-muted">Brak wyników.</span>';
+            return;
+        }
+
+        data.forEach(word => {
+            const itemLink = document.createElement('a');
+
+            itemLink.classList.add('dropdown-item');
+            itemLink.href = `/word/${word.word}`;
+            itemLink.id = word.id;
+
+            itemLink.innerHTML = `
+                <div class="fw-bold text-dark">${escapeHTML(word.word)}</div>
+                <small class="text-muted d-block text-truncate">
+                    ${escapeHTML(word.description ?? '')}
+                </small>
+            `;
+
+            resultsDiv.appendChild(itemLink);
+        });
     }
 
-    fetch(`/search?q=${encodeURIComponent(query)}`)
-        .then(response => response.json())
-        .then(data => {
-            resultsDiv.innerHTML = '';
+    function hideResults() {
+        resultsDiv.innerHTML = '';
+        resultsDiv.classList.remove('dropdown-menu', 'show', 'w-100', 'shadow-lg');
+    }
+    document.addEventListener('click', function(event) {
+        if (!searchInput.contains(event.target) && !resultsDiv.contains(event.target)) {
+            hideResults();
+        }
+    });
 
-            if (data.length === 0) {
-                const noResult = document.createElement('li');
-                noResult.classList.add('list-group-item');
-                noResult.textContent = 'Brak wyników.';
-                resultsDiv.appendChild(noResult);
-                return;
-            }
+    function escapeHTML(str) {
+        return (str ?? '').replace(/[&<>"']/g, function(match) {
+            return {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#39;'
+            }[match];
+        });
+    }
 
-            data.forEach(word => {
-                const item = document.createElement('li');
-                item.classList.add('list-group-item');
-                item.id = word.id;
-
-                const link = document.createElement('a');
-                link.href = `/${word.word}`;
-
-                link.style.textDecoration = 'none';
-                link.style.color = 'inherit';
-                link.style.display = 'block';
-
-                link.innerHTML = `<b> ${word.word} <br/><small>${word.description ?? ''}</small>`;
-
-                item.appendChild(link);
-
-                resultsDiv.appendChild(item);
-            });
-        })
-        .catch(err => console.error('Błąd wyszukiwania:', err));
 });

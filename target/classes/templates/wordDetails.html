@@ -1,60 +1,75 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org" lang="pl">
-<head>
-    <title th:text="${pageTitle}">Szczegóły słowa</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-</head>
-<body>
-<header th:insert="blocks/header.html :: header"> </header>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="pl"
+      th:replace="~{layout/main :: layout(content=~{::content})}">
+<section th:fragment="content">
 
-<main>
-    <div class="container mt-5 d-flex justify-content-center">
+    <div class="banner-wrapper bg-light">
+        <div class="container py-5">
+            <div class="row py-4">
+                <div class="col-lg-8 col-md-10 m-auto text-center">
 
-        <div class="card w-100 shadow-sm" style="max-width: 800px;">
+                    <h1 class="banner-heading h1 text-secondary display-3 mb-4 light-300"
+                        th:text="${wordObject.word}">
+                        Słowo źródłowe
+                    </h1>
+                    <div class="mt-3" sec:authorize="isAuthenticated()">
+                    <p class="fs-5 text-muted mb-4">
+                        Jaki jest status tego słowa?
+                    </p>
 
-            <div class="card-header bg-light">
-                <h1 class="mb-0 fs-4" th:text="${pageTitle}">Tłumaczenia dla słowa: [Słowo]</h1>
-            </div>
 
-            <div class="card-body p-4">
+                        <form th:action="@{/word/status-change}" method="POST"
+                              class="d-flex flex-column flex-md-row justify-content-center gap-2">
 
-                <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                            <input type="hidden" name="wordId" th:value="${wordObject.id}" />
+                            <input type="hidden" name="wordName" th:value="${wordObject.word}" />
 
-                    <div class="d-flex flex-column flex-grow-1 me-md-3">
+                            <select class="form-select form-select-lg" id="wordStatus" name="status"
+                                    aria-label="Status słowa" style="max-width: 300px;"
+                                    th:with="currentStatus=${getWordStatus != null ? getWordStatus.studyStatus : 'NIE_ZNAM'}">
 
-                        <div class="fs-3 fw-bold mb-1" th:text="${word}">Słowo źródłowe (np. House)</div>
+                                <option value="NIE_ZNAM" th:selected="${currentStatus == 'NIE_ZNAM'}">Nie znam</option>
+                                <option value="UCZE_SIE" th:selected="${currentStatus == 'UCZE_SIE'}">Uczę się</option>
+                                <option value="ZNAM" th:selected="${currentStatus == 'ZNAM'}">Znam</option>
+                                <option value="WAZNE" th:selected="${currentStatus == 'WAZNE'}">Ważne</option>
+                            </select>
 
-                        <div class="mt-3">
-                            <h6 class="text-muted small mb-2">TŁUMACZENIA:</h6>
-
-                            <div class="d-flex flex-wrap gap-2">
-
-                                <span th:each="translate:${wordTranslations}"
-                                      th:text="${translate.polishWord.word}"
-                                      class="badge bg-primary-subtle text-primary-emphasis rounded-pill fs-6 fw-normal px-3 py-2">
-                                    Polski: dom
-                                </span>
-
-                                <span th:if="${wordTranslations == null OR wordTranslations.isEmpty()}"
-                                      class="text-muted fst-italic small">
-                                    Brak tłumaczeń.
-                                </span>
-                            </div>
-                        </div>
-
+                            <button type="submit" class="btn btn-primary rounded-pill px-4 btn-lg">Zapisz</button>
+                        </form>
                     </div>
 
                 </div>
             </div>
+        </div>
+    </div>
 
-            <div class="card-footer text-center bg-light border-0 pt-4 pb-3">
-                <a href="/" class="btn btn-secondary">
-                    <i class="bi bi-arrow-left me-1"></i> Powrót do strony głównej
-                </a>
-            </div>
+    <section class="container py-5">
+        <div class="row">
+            <h2 class="h2 text-center col-12 pb-4 semi-bold-600">Tłumaczenia</h2>
+        </div>
 
-        </div> </div> </main>
-</body>
+        <div class="d-flex justify-content-center flex-wrap gap-3">
+
+            <span th:each="translate:${wordTranslations}"
+                  th:text="${translate.polishWord.word}"
+                  class="badge bg-primary rounded-pill fs-5 fw-normal px-4 py-2">>
+                Polski: dom
+            </span>
+
+            <span th:if="${wordTranslations == null OR wordTranslations.isEmpty()}"
+                  class="text-muted fs-5 fst-italic">
+                Brak tłumaczeń.
+            </span>
+        </div>
+    </section>
+
+    <div class="container py-5">
+        <div class="text-center border-top pt-5">
+            <a href="/" class="btn btn-secondary rounded-pill px-4 py-2">
+                <i class='bx bx-arrow-back me-1'></i> Powrót do strony głównej
+            </a>
+        </div>
+    </div>
+
+</section>
 </html>

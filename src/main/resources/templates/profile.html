@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="pl"
+      th:replace="~{layout/main :: layout(content=~{::content})}">
+
+<section th:fragment="content">
+
+    <div class="banner-wrapper bg-light">
+        <div class="container py-5">
+            <div class="row py-4">
+                <div class="col-lg-8 col-md-10 m-auto text-center">
+
+                    <h1 class="banner-heading h1 text-secondary display-3 mb-4 light-300">
+                        Witaj, <span sec:authentication="name">Użytkowniku</span>!
+                    </h1>
+                    <p class="fs-5 text-muted mb-4">
+                        Oto podsumowanie Twojej aktywności i postępów w nauce.
+                    </p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="container py-5">
+        <h2 class="h2 text-center col-12 pb-4 semi-bold-600">Twoje Statystyki</h2>
+
+        <div class="row text-center">
+            <div class="col-md-3 col-6 mb-4">
+                <h3 class="h1 semi-bold-600 text-primary" th:text="${stats.known}">120</h3>
+                <p class="text-muted fs-5">Słów "Znam"</p>
+            </div>
+            <div class="col-md-3 col-6 mb-4">
+                <h3 class="h1 semi-bold-600 text-primary" th:text="${stats.learning}">45</h3>
+                <p class="text-muted fs-5">Słów "Uczę się"</p>
+            </div>
+            <div class="col-md-3 col-6 mb-4">
+                <h3 class="h1 semi-bold-600 text-primary" th:text="${stats.important}">15</h3>
+                <p class="text-muted fs-5">Słów "Ważne"</p>
+            </div>
+            <div class="col-md-3 col-6 mb-4">
+                <h3 class="h1 semi-bold-600 text-primary" th:text="${stats.unknown}">750</h3>
+                <p class="text-muted fs-5">Słów "Nie znam"</p>
+            </div>
+        </div>
+    </section>
+
+
+    <div class="container py-5">
+        <div class="text-center border-top pt-5">
+            <a href="/" class="btn btn-secondary rounded-pill px-4 py-2">
+                <i class='bx bx-arrow-back me-1'></i> Powrót do strony głównej
+            </a>
+        </div>
+    </div>
+
+</section>
+</html>

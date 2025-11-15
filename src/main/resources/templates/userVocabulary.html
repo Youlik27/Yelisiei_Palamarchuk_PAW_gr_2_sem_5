@@ -1,0 +1,122 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="pl"
+      th:replace="~{layout/main :: layout(content=~{::content})}">
+
+<section th:fragment="content">
+    <div class="container mt-5">
+
+        <div class="card shadow-sm">
+            <div class="card-header bg-light">
+                <h1 class="mb-0 fs-4">Twoje słowa</h1>
+            </div>
+
+            <div class="card-body p-4">
+
+
+                <ul class="nav nav-tabs mb-4" id="wordTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="nieznam-tab" data-bs-toggle="tab"
+                                data-bs-target="#nieznam" type="button" role="tab"
+                                aria-controls="nieznam" aria-selected="true">
+                            Nie znam
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="ucze-tab" data-bs-toggle="tab"
+                                data-bs-target="#ucze" type="button" role="tab"
+                                aria-controls="ucze" aria-selected="false">
+                            Uczę się
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="znam-tab" data-bs-toggle="tab"
+                                data-bs-target="#znam" type="button" role="tab"
+                                aria-controls="znam" aria-selected="false">
+                            Znam
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="wazne-tab" data-bs-toggle="tab"
+                                data-bs-target="#wazne" type="button" role="tab"
+                                aria-controls="wazne" aria-selected="false">
+                            Ważne
+                        </button>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="wordTabsContent">
+
+                    <div class="tab-pane fade show active" id="nieznam" role="tabpanel" aria-labelledby="nieznam-tab">
+                        <div th:if="${nieZnamWords != null and !nieZnamWords.isEmpty()}">
+                            <ul class="list-group">
+                                <li th:each="entry : ${nieZnamWords}"
+                                    class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span th:text="${entry.word.word}">example</span>
+                                    <a th:href="@{/word/{id}(id=${entry.word.id})}"
+                                       class="btn btn-outline-primary btn-sm">Zobacz</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div th:if="${nieZnamWords == null or nieZnamWords.isEmpty()}"
+                             class="text-muted fst-italic text-center">Brak słów w tej kategorii.</div>
+                    </div>
+
+                    <div class="tab-pane fade" id="ucze" role="tabpanel" aria-labelledby="ucze-tab">
+                        <div th:if="${uczeSieWords != null and !uczeSieWords.isEmpty()}">
+                            <ul class="list-group">
+                                <li th:each="entry : ${uczeSieWords}"
+                                    class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span th:text="${entry.word.word}">example</span>
+                                    <a th:href="@{/word/{id}(id=${entry.word.id})}"
+                                       class="btn btn-outline-primary btn-sm">Zobacz</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div th:if="${uczeSieWords == null or uczeSieWords.isEmpty()}"
+                             class="text-muted fst-italic text-center">Brak słów w tej kategorii.</div>
+                    </div>
+
+
+                    <div class="tab-pane fade" id="znam" role="tabpanel" aria-labelledby="znam-tab">
+                        <div th:if="${znamWords != null and !znamWords.isEmpty()}">
+                            <ul class="list-group">
+                                <li th:each="entry : ${znamWords}"
+                                    class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span th:text="${entry.word.word}">example</span>
+                                    <a th:href="@{/word/{id}(id=${entry.word.id})}"
+                                       class="btn btn-outline-primary btn-sm">Zobacz</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div th:if="${znamWords == null or znamWords.isEmpty()}"
+                             class="text-muted fst-italic text-center">Brak słów w tej kategorii.</div>
+                    </div>
+
+
+                    <div class="tab-pane fade" id="wazne" role="tabpanel" aria-labelledby="wazne-tab">
+                        <div th:if="${wazneWords != null and !wazneWords.isEmpty()}">
+                            <ul class="list-group">
+                                <li th:each="entry : ${wazneWords}"
+                                    class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span th:text="${entry.word.word}">example</span>
+                                    <a th:href="@{/word/{id}(id=${entry.word.id})}"
+                                       class="btn btn-outline-primary btn-sm">Zobacz</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div th:if="${wazneWords == null or wazneWords.isEmpty()}"
+                             class="text-muted fst-italic text-center">Brak słów w tej kategorii.</div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="card-footer text-center bg-light border-0 pt-3 pb-3">
+                <a href="/" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left me-1"></i> Powrót do strony głównej
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+</html>
