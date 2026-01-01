@@ -62,4 +62,5 @@ public class WordController {
 
         return "redirect:/word/" + wordName;
     }
+
 }

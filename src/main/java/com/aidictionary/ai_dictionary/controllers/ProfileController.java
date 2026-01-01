@@ -48,7 +48,8 @@ public class ProfileController {
         }
         User user = userOpt.get();
         Long userId = user.getId();
-        List<UserEnglishVocabulary> allWords = profileService.getUserVocabulary(userId);        model.addAttribute("nieZnamWords", allWords.stream()
+        List<UserEnglishVocabulary> allWords = profileService.getUserVocabulary(userId);
+        model.addAttribute("nieZnamWords", allWords.stream()
                 .filter(v -> "NIE_ZNAM".equals(v.getStudyStatus()))
                 .toList());
         model.addAttribute("uczeSieWords", allWords.stream()

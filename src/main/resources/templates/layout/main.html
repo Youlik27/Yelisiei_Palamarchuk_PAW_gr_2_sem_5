@@ -12,19 +12,19 @@
 
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
 
-    <link th:href="@{/css/boxicon.min.css}" rel="stylesheet">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" th:href="@{/css/templatemo.css}">
 
     <link rel="stylesheet" th:href="@{/css/custom.css}">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" th:href="@{/main.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
 <header th:insert="~{blocks/header :: header}"></header>
-<main th:insert="${content}">
+<main th:insert="${content}" class="flex-fill">
 </main>
 
 <footer th:insert="~{blocks/footer :: footer}"></footer>

@@ -21,6 +21,9 @@ public class ProfileService {
     public List<UserEnglishVocabulary>getUserVocabulary(Long userId){
         return userEnglishVocabularyRepository.findByUserId(userId);
     }
+    public List<UserEnglishVocabulary>getUserInfo(Long userId){
+        return userEnglishVocabularyRepository.findByUserId(userId);
+    }
     public record Stats(
             long known,
             long learning,

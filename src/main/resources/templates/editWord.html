@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="pl"
+      th:replace="~{layout/main :: layout(content=~{::content})}">
+
+<section th:fragment="content">
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-lg-8 m-auto">
+
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h2 class="h3 text-secondary light-300">Edycja Definicji</h2>
+                        <p class="text-muted">
+                            Słowo: <strong class="text-primary" th:text="${word.englishWord.word}">Apple</strong>
+                        </p>
+                    </div>
+                    <a th:href="@{/moderator/words}" class="btn btn-outline-secondary rounded-pill px-3">
+                        <i class='bx bx-arrow-back'></i> Powrót do listy
+                    </a>
+                </div>
+
+                <div class="card shadow border-0">
+                    <div class="card-body p-5">
+                        <form th:action="@{/moderator/edit/{id}(id=${word.id})}" th:object="${word}" method="post">
+
+                            <div class="mb-4">
+                                <label class="form-label text-secondary d-block">Tłumaczenie (PL)</label>
+                                <div class="form-control-plaintext px-3 fw-bold border-bottom" th:text="*{polishWord.word}">
+                                    Jabłko
+                                </div>
+                                <input type="hidden" th:field="*{polishWord.word}">
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="pos" class="form-label text-secondary">Część mowy (POS)</label>
+                                <select th:field="*{pos}" class="form-select rounded-pill px-3" id="pos">
+                                    <option value="noun">Rzeczownik (noun)</option>
+                                    <option value="verb">Czasownik (verb)</option>
+                                    <option value="adj">Przymiotnik (adj)</option>
+                                    <option value="adv">Przysłówek (adv)</option>
+                                    <option value="prep">Przyimek (prep)</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="description" class="form-label text-secondary">Opis / Definicja</label>
+                                <textarea th:field="*{description}" class="form-control" id="description" rows="4" style="border-radius: 15px;"></textarea>
+                            </div>
+
+                            <hr class="my-4 text-muted">
+
+                            <div class="d-flex justify-content-end gap-2">
+                                <button type="submit" class="btn btn-primary rounded-pill px-5 shadow-sm">
+                                    <i class='bx bx-save'></i> Zapisz zmiany
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+</html>

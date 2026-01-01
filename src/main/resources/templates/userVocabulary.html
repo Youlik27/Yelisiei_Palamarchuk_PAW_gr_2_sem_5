@@ -52,7 +52,7 @@
                                 <li th:each="entry : ${nieZnamWords}"
                                     class="list-group-item d-flex justify-content-between align-items-center">
                                     <span th:text="${entry.word.word}">example</span>
-                                    <a th:href="@{/word/{id}(id=${entry.word.id})}"
+                                    <a th:href="@{/word/{word}(word=${entry.word.word})}"
                                        class="btn btn-outline-primary btn-sm">Zobacz</a>
                                 </li>
                             </ul>
@@ -67,7 +67,7 @@
                                 <li th:each="entry : ${uczeSieWords}"
                                     class="list-group-item d-flex justify-content-between align-items-center">
                                     <span th:text="${entry.word.word}">example</span>
-                                    <a th:href="@{/word/{id}(id=${entry.word.id})}"
+                                    <a th:href="@{/word/{word}(word=${entry.word.word})}"
                                        class="btn btn-outline-primary btn-sm">Zobacz</a>
                                 </li>
                             </ul>
@@ -83,7 +83,7 @@
                                 <li th:each="entry : ${znamWords}"
                                     class="list-group-item d-flex justify-content-between align-items-center">
                                     <span th:text="${entry.word.word}">example</span>
-                                    <a th:href="@{/word/{id}(id=${entry.word.id})}"
+                                    <a th:href="@{/word/{word}(word=${entry.word.word})}"
                                        class="btn btn-outline-primary btn-sm">Zobacz</a>
                                 </li>
                             </ul>
@@ -99,7 +99,7 @@
                                 <li th:each="entry : ${wazneWords}"
                                     class="list-group-item d-flex justify-content-between align-items-center">
                                     <span th:text="${entry.word.word}">example</span>
-                                    <a th:href="@{/word/{id}(id=${entry.word.id})}"
+                                    <a th:href="@{/word/{word}(word=${entry.word.word})}"
                                        class="btn btn-outline-primary btn-sm">Zobacz</a>
                                 </li>
                             </ul>

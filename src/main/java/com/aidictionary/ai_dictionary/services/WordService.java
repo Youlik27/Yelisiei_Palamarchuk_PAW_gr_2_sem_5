@@ -1,17 +1,19 @@
-package com.aidictionary.ai_dictionary.services; // (рекомендую создать пакет services)
+package com.aidictionary.ai_dictionary.services;
 
 import com.aidictionary.ai_dictionary.models.*;
 import com.aidictionary.ai_dictionary.repositories.English_WordsRepository;
 import com.aidictionary.ai_dictionary.repositories.UserEnglishVocabularyRepository;
 import com.aidictionary.ai_dictionary.repositories.UserRepository;
 import com.aidictionary.ai_dictionary.repositories.WordDefinitionRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class WordService {
@@ -47,17 +49,48 @@ public class WordService {
         }
         return allResults;
     }
+    public Page<WordDefinition> getDefinitionsForModerator(String query, Pageable pageable) {
+        if (query != null && !query.trim().isEmpty()) {
+            return wordsRepository.findByWordWithPriority(query.trim(), pageable);
+        }
+        Pageable sortedPageable = PageRequest.of(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                Sort.by(Sort.Direction.DESC, "polishWord.frequency")
+                        .and(Sort.by(Sort.Direction.ASC, "englishWord.word"))
+        );
 
+        return wordsRepository.findAllWithLengthFilter(sortedPageable);
+    }
+    public void updateDefinition(Long id, WordDefinition updatedData) {
+        WordDefinition existing = wordsRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Null"));
+
+        existing.setRawGloss(updatedData.getRawGloss());
+        existing.setDescription(updatedData.getDescription());
+        existing.setPos(updatedData.getPos());
+
+        wordsRepository.save(existing);
+    }
     public List<WordDefinition> getWordDetails(String wordName) {
         List<WordDefinition> words = (List<WordDefinition>) wordsRepository.findByEnglishWord_WordIgnoreCaseAndPolishWord_FrequencyGreaterThanOrderByPolishWord_FrequencyDesc(wordName, 0);
-
         if (words.isEmpty()) {
             words = wordsRepository.findByEnglishWord_WordIgnoreCase(wordName);
             if(words.isEmpty()) {
                 return Collections.emptyList();
             }
         }
-        return words;
+        return new ArrayList<>(words.stream()
+                .collect(Collectors.toMap(
+                        w -> w.getEnglishWord().getWord() + "|" + w.getPolishWord().getWord(),
+                        w -> w,
+                        (existing, replacement) -> existing,
+                        LinkedHashMap::new
+                )).values())
+                .stream()
+                .limit(3)
+                .collect(Collectors.toList());
+
     }
     public UserEnglishVocabulary getWordStatus(Principal principal, Long wordId) {
         if (principal == null) {
@@ -110,4 +143,5 @@ public class WordService {
             userEnglishVocabularyRepository.save(newEntry);
         }
     }
+
 }

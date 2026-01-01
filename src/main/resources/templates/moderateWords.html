@@ -1,0 +1,104 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="pl"
+      th:replace="~{layout/main :: layout(content=~{::content})}">
+
+<section th:fragment="content">
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-lg-12 m-auto">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="h3 text-secondary light-300">Moderacja Definicji</h2>
+                </div>
+                <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show rounded-pill px-4 shadow-sm" role="alert">
+                    <i class='bx bx-check-circle'></i> <span th:text="${successMessage}"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+
+                <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show rounded-pill px-4 shadow-sm" role="alert">
+                    <i class='bx bx-error'></i> <span th:text="${errorMessage}"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <div class="row mb-4">
+                    <div class="col-md-6">
+
+                        <form th:action="@{/moderator/words}" method="get" class="d-flex gap-2">
+                            <input type="text" name="search" th:value="${search}"
+                                   class="form-control rounded-pill px-3 shadow-sm"
+                                   placeholder="Szukaj angielskiego słowa..." aria-label="Search">
+                            <button class="btn btn-primary rounded-pill px-4" type="submit">
+                                <i class='bx bx-search'></i>
+                            </button>
+                            <a th:if="${search != null}" th:href="@{/moderator/words}" class="btn btn-outline-secondary rounded-pill">
+                                Reset
+                            </a>
+                        </form>
+                    </div>
+                </div>
+                <div class="card shadow-sm border-0">
+                    <div class="card-body p-0">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="bg-light text-muted">
+                            <tr>
+                                <th class="px-4">Słowo</th>
+                                <th>Część mowy</th>
+                                <th>Tłumaczenie</th>
+                                <th>Opis</th>
+                                <th class="text-end px-4">Akcje</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="word : ${words}">
+                                <td th:text="${word.englishWord.word}"></td>
+                                <td>
+                                    <span class="badge bg-light text-dark border" th:text="${word.pos}">pos</span>
+                                </td>
+                                <td>
+                                    <strong class="text-primary" th:text="${word.polishWord.word}">gloss</strong>
+                                </td>
+                                <td class="text-wrap" style="max-width: 300px;" th:text="${word.description}"></td>
+                                <td class="text-end px-4">
+                                    <a th:href="@{/moderator/edit/{id}(id=${word.id})}"
+                                       class="btn btn-sm btn-primary rounded-pill px-3">
+                                        <i class='bx bx-edit-alt'></i> Edytuj
+                                    </a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div th:if="${totalPages > 1}" class="d-flex justify-content-center mt-4">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination pagination-sm shadow-sm">
+                            <li class="page-item" th:if="${currentPage > 2}">
+                                <a class="page-link" th:href="@{/moderator/words(page=0, search=${search})}">1</a>
+                            </li>
+
+                            <li class="page-item disabled" th:if="${currentPage > 2}">
+                                <span class="page-link">...</span>
+                            </li>
+
+                            <li class="page-item" th:each="i : ${#numbers.sequence(startPage, endPage)}"
+                                th:classappend="${currentPage == i} ? 'active'">
+                                <a class="page-link"
+                                   th:href="@{/moderator/words(page=${i}, search=${search})}"
+                                   th:text="${i + 1}"></a>
+                            </li>
+
+                            <li class="page-item disabled" th:if="${currentPage < totalPages - 3}">
+                                <span class="page-link">...</span>
+                            </li>
+
+                            <li class="page-item" th:if="${currentPage < totalPages - 3}">
+                                <a class="page-link"
+                                   th:href="@{/moderator/words(page=${totalPages - 1}, search=${search})}"
+                                   th:text="${totalPages}"></a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</html>

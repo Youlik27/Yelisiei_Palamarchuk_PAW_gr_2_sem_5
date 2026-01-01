@@ -1,0 +1,20 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="pl"
+      th:replace="~{layout/main :: layout(content=~{::content})}">
+
+<section th:fragment="content">
+
+    <div class="container text-center py-5">
+        <h1 class="display-4 text-secondary mb-4">404</h1>
+
+        <p class="fs-4 text-muted mb-4">
+            Strona, której szukasz, nie istnieje.
+        </p>
+
+        <a href="/" class="btn btn-primary rounded-pill px-4 py-2">
+            Powrót do strony głównej
+        </a>
+    </div>
+
+</section>
+</html>
